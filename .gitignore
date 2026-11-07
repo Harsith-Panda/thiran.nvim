@@ -1,0 +1,3 @@
+# Runtime logs. Neovim's own logs live in the state directory, not here.
+nvim.log
+*.log
