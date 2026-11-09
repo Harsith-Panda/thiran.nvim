@@ -1,3 +1,6 @@
 # Runtime logs. Neovim's own logs live in the state directory, not here.
 nvim.log
 *.log
+
+# Personal Obsidian vault path. Copy vault.example.lua to this file.
+lua/thiran/config/vault.lua
