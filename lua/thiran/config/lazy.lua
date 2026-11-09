@@ -30,3 +30,7 @@ require("lazy").setup({
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
+
+-- Off removes the Obsidian and render-markdown install folders.
+-- On again installs them during the setup above, when those folders are missing.
+require("thiran.config.markdown").sync()
