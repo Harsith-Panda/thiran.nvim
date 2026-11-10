@@ -161,6 +161,53 @@ return {
 			-- The output window, opened with \os, is a rounded box.
 			vim.g.molten_output_win_border = "rounded"
 			vim.g.molten_use_border_highlights = true
+
+			-- These modules only render SVG, LaTeX, and Plotly, or copy output
+			-- to the clipboard. This config does not show images and does not
+			-- copy output, so the missing modules are not installed.
+			package.preload["molten.health"] = function()
+				local file
+				for _, path in ipairs(vim.api.nvim_get_runtime_file("lua/molten/health.lua", true)) do
+					if path:find("/molten-nvim/", 1, true) then
+						file = path
+						break
+					end
+				end
+				if not file then
+					return {
+						check = function()
+							vim.health.error("molten-nvim health check was not found")
+						end,
+					}
+				end
+				local mod = assert(loadfile(file))()
+				local check = mod.check
+				mod.check = function()
+					local skip = {}
+					if vim.g.molten_image_provider == "none" then
+						for _, name in ipairs({ "cairosvg", "pnglatex", "plotly", "kaleido", "pillow" }) do
+							skip["Optional python module " .. name .. " not found"] = true
+						end
+					end
+					if not vim.g.molten_copy_output then
+						skip["Optional python module pyperclip not found"] = true
+					end
+					local health = vim.health
+					local warn = health.warn
+					health.warn = function(msg, ...)
+						if type(msg) == "string" and skip[msg] then
+							return
+						end
+						return warn(msg, ...)
+					end
+					local ok, err = pcall(check)
+					health.warn = warn
+					if not ok then
+						error(err)
+					end
+				end
+				return mod
+			end
 		end,
 	},
 	{
@@ -220,7 +267,24 @@ return {
 			syntax_highlight = true,
 		},
 		config = function(_, opts)
-			require("notebook-navigator").setup(opts)
+			-- Notebook Navigator still calls vim.validate with a table. Neovim
+			-- records that as deprecated. Translate it to the current form
+			-- for this setup call, which is the only place it validates.
+			local validate = vim.validate
+			vim.validate = function(name, value, validator, optional, message)
+				if type(name) ~= "table" or value ~= nil or validator ~= nil then
+					return validate(name, value, validator, optional, message)
+				end
+				for key, spec in pairs(name) do
+					local extra = spec[3]
+					validate(key, spec[1], spec[2], extra == true, type(extra) == "string" and extra or nil)
+				end
+			end
+			local ok, err = pcall(require("notebook-navigator").setup, opts)
+			vim.validate = validate
+			if not ok then
+				error(err)
+			end
 
 			local cell_ns = vim.api.nvim_create_namespace("thiran_notebook_cells")
 			local draw_pending = {}
