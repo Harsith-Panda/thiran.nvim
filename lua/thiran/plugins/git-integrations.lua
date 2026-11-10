@@ -18,6 +18,15 @@ return {
 			word_diff = false, -- Toggle inline word diffs
 
 			on_attach = function(bufnr)
+				-- jupytext shows a .ipynb buffer as Python. The file on disk is
+				-- still JSON, so the gutter diff would be noise.
+				if require("thiran.config.notebooks").enabled then
+					local name = vim.api.nvim_buf_get_name(bufnr)
+					if name:match("%.ipynb$") then
+						return false
+					end
+				end
+
 				local gitsigns = require("gitsigns")
 
 				local function map(mode, l, r, opts)

@@ -21,6 +21,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- Molten needs its Python host before plugins load.
+require("thiran.config.notebooks").prepare()
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -34,3 +37,7 @@ require("lazy").setup({
 -- Off removes the Obsidian and render-markdown install folders.
 -- On again installs them during the setup above, when those folders are missing.
 require("thiran.config.markdown").sync()
+
+-- Off removes the notebook plugins and their Python host.
+-- On again installs them during the setup above, when those folders are missing.
+require("thiran.config.notebooks").sync()

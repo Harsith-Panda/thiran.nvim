@@ -12,6 +12,9 @@ return {
 			["_"] = { "lsp" },
 		},
 
+		-- Stay quiet when a filetype has no formatter. Markdown is one of those
+		-- until a Markdown formatter or an LSP that can format it is installed.
+		notify_no_formatters = false,
 		format_on_save = {
 			timeout_ms = 200,
 			lsp_format = "fallback",
