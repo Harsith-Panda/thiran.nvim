@@ -24,6 +24,9 @@ vim.g.maplocalleader = "\\"
 -- Molten needs its Python host before plugins load.
 require("thiran.config.notebooks").prepare()
 
+-- Register Avante's compiled ACP library before any plugin can require it.
+require("thiran.config.avante_native").install()
+
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {

@@ -6,7 +6,8 @@ local markdown = require("thiran.config.markdown")
 return {
 	"MeanderingProgrammer/render-markdown.nvim",
 	enabled = markdown.enabled,
-	ft = "markdown",
+	-- Avante's chat buffer is markdown too. Render it with the notes.
+	ft = { "markdown", "Avante" },
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
 		"nvim-tree/nvim-web-devicons",
@@ -14,6 +15,7 @@ return {
 	---@module "render-markdown"
 	---@type render.md.UserConfig
 	opts = {
+		file_types = { "markdown", "Avante" },
 		-- Normal mode is the preview. Insert mode shows the raw Markdown,
 		-- and leaving insert mode renders it again.
 		render_modes = { "n", "c", "t" },
