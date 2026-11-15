@@ -158,8 +158,8 @@ return {
 			-- Long prints stay under the cell instead of stopping at a dozen lines.
 			vim.g.molten_virt_text_max_lines = 40
 			vim.g.molten_output_win_max_height = 20
-			-- The output window, opened with \os, is a rounded box.
-			vim.g.molten_output_win_border = "rounded"
+			-- The output window, opened with \os, uses the same frame as the rest of the UI.
+			vim.g.molten_output_win_border = require("thiran.config.theme").border
 			vim.g.molten_use_border_highlights = true
 
 			-- These modules only render SVG, LaTeX, and Plotly, or copy output
@@ -290,8 +290,16 @@ return {
 			local draw_pending = {}
 
 			local function setup_highlights()
-				vim.api.nvim_set_hl(0, "ThiranNotebookBorder", { link = "FloatBorder" })
-				vim.api.nvim_set_hl(0, "ThiranNotebookLabel", { link = "Title" })
+				if vim.g.colors_name == "thiran" then
+					local p = require("thiran.theme.palette")
+					-- The frame is the accent itself. A washed border sat on the
+					-- ground and the cell edge disappeared.
+					vim.api.nvim_set_hl(0, "ThiranNotebookBorder", { fg = p.accent })
+					vim.api.nvim_set_hl(0, "ThiranNotebookLabel", { fg = p.accent, bold = true })
+				else
+					vim.api.nvim_set_hl(0, "ThiranNotebookBorder", { link = "FloatBorder" })
+					vim.api.nvim_set_hl(0, "ThiranNotebookLabel", { link = "Title" })
+				end
 				-- Molten's default is Comment, which disappears on a dark theme.
 				vim.api.nvim_set_hl(0, "MoltenVirtualText", { link = "Normal" })
 			end
@@ -346,17 +354,18 @@ return {
 
 				local info = vim.fn.getwininfo(win)[1]
 				local width = math.max(24, info.width - info.textoff)
-				local gutter = "│ "
+				local box = require("thiran.theme").box()
+				local gutter = box.v .. " "
 				for index, marker in ipairs(markers) do
 					local last = index < #markers and markers[index + 1].line - 1 or #lines
 					local dashes = math.max(2, width - #marker.kind - 5)
 					local top = {
-						{ "╭─ ", "ThiranNotebookBorder" },
+						{ box.tl .. box.h .. " ", "ThiranNotebookBorder" },
 						{ marker.kind, "ThiranNotebookLabel" },
-						{ " " .. string.rep("─", dashes) .. "╮", "ThiranNotebookBorder" },
+						{ " " .. string.rep(box.h, dashes) .. box.tr, "ThiranNotebookBorder" },
 					}
 					local bottom = {
-						{ "╰" .. string.rep("─", width - 2) .. "╯", "ThiranNotebookBorder" },
+						{ box.bl .. string.rep(box.h, width - 2) .. box.br, "ThiranNotebookBorder" },
 					}
 
 					local first = marker.line + 1
@@ -400,7 +409,7 @@ return {
 							end
 							vim.api.nvim_buf_set_extmark(bufnr, cell_ns, row - 1, 0, opts)
 							vim.api.nvim_buf_set_extmark(bufnr, cell_ns, row - 1, 0, {
-								virt_text = { { " │", "ThiranNotebookBorder" } },
+								virt_text = { { " " .. box.v, "ThiranNotebookBorder" } },
 								virt_text_pos = "right_align",
 								hl_mode = "combine",
 							})

@@ -15,7 +15,11 @@ return {
 			local dapui = require("dapui")
 
 			-- 1. Initialize the UI layouts
-			dapui.setup()
+			dapui.setup({
+				floating = {
+					border = require("thiran.config.theme").border,
+				},
+			})
 
 			-- 2. Automated UI triggers: Open panels when debugging starts, close when it ends
 			dap.listeners.before.attach.dapui_config = function()

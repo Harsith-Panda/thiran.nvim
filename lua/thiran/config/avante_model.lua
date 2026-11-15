@@ -113,9 +113,14 @@ local function show_cached(winid, model, mode)
   local function segment(text, highlight)
     return "%#" .. highlight .. "#" .. text
   end
-  local pill = segment(Utils.icon("", "『"), "AvanteReversedTitle")
-    .. segment(label, "AvanteTitle")
-    .. segment(Utils.icon("", "』"), "AvanteReversedTitle")
+  local pill
+  if require("thiran.config.theme").border == "rounded" then
+    pill = segment(Utils.icon("", "『"), "AvanteReversedTitle")
+      .. segment(label, "AvanteTitle")
+      .. segment(Utils.icon("", "』"), "AvanteReversedTitle")
+  else
+    pill = segment(" " .. label .. " ", "AvanteTitle")
+  end
   local winbar = pill .. "%=" .. segment("", "AvanteSidebarWinHorizontalSeparator")
   if vim.api.nvim_win_is_valid(winid) then
     vim.api.nvim_set_option_value("winbar", winbar, { win = winid })

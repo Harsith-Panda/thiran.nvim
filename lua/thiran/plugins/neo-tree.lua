@@ -48,7 +48,7 @@ return {
 		},
 		opts = {
 			close_if_last_window = true,
-			popup_border_style = "rounded",
+			popup_border_style = require("thiran.config.theme").border,
 			enable_git_status = true,
 			enable_diagnostics = true,
 			window = {

@@ -1,4 +1,6 @@
 -- .git is the repository database. Show it, and refuse edits that would change it.
+local border = require("thiran.config.theme").border
+
 local function git_store(path)
 	if type(path) ~= "string" or path == "" then
 		return false
@@ -42,15 +44,15 @@ return {
 				end,
 			},
 			float = {
-				border = "rounded",
+				border = border,
 				max_width = 0.8,
 				max_height = 0.8,
 			},
 			confirmation = {
-				border = "rounded",
+				border = border,
 			},
 			keymaps_help = {
-				border = "rounded",
+				border = border,
 			},
 		},
 		config = function(_, opts)

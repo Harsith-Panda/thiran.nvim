@@ -45,7 +45,14 @@ return {
 			-- File, directory, LSP, and OS icons. which-key uses this ahead of nvim-web-devicons.
 			{ "nvim-mini/mini.icons", opts = {} },
 		},
-		opts = {},
+		opts = {
+			win = {
+				border = require("thiran.config.theme").border,
+				wo = {
+					winblend = 0,
+				},
+			},
+		},
 		keys = {
 			{
 				"<leader>?",

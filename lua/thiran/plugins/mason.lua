@@ -53,8 +53,7 @@ return {
 				log_level = vim.log.levels.ERROR,
 
 				ui = {
-					-- Ensures the window uses universal border boundaries for styling
-					border = "rounded",
+					border = require("thiran.config.theme").border,
 					icons = {
 						package_installed = "✓",
 						package_pending = "➜",

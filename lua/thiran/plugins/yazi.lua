@@ -25,25 +25,40 @@ return {
 		},
 	},
 	---@type YaziConfig | {}
-	opts = {
-		-- Neo-tree opens directories. Yazi stays a floating file manager.
-		open_for_directories = false,
-		open_multiple_tabs = true,
-		yazi_floating_window_border = "rounded",
-		keymaps = {
-			show_help = "<f1>",
-			open_file_in_vertical_split = "<c-v>",
-			open_file_in_horizontal_split = "<c-x>",
-			open_file_in_tab = "<c-t>",
-			grep_in_directory = "<c-s>",
-			send_to_quickfix_list = "<c-q>",
-			-- Needs GNU realpath (`grealpath` on macOS). Off until that exists.
-			copy_relative_path_to_selected_files = false,
-			cycle_open_buffers = "<tab>",
-			change_working_directory = "<c-\\>",
-			-- These need plugins Thiran does not ship.
-			replace_in_directory = false,
-			open_and_pick_window = false,
-		},
-	},
+	opts = function()
+		local theme = require("thiran.config.theme")
+		local opts = {
+			-- Neo-tree opens directories. Yazi stays a floating file manager.
+			open_for_directories = false,
+			open_multiple_tabs = true,
+			yazi_floating_window_border = theme.border,
+			yazi_floating_window_winblend = 0,
+			keymaps = {
+				show_help = "<f1>",
+				open_file_in_vertical_split = "<c-v>",
+				open_file_in_horizontal_split = "<c-x>",
+				open_file_in_tab = "<c-t>",
+				grep_in_directory = "<c-s>",
+				send_to_quickfix_list = "<c-q>",
+				-- Needs GNU realpath (`grealpath` on macOS). Off until that exists.
+				copy_relative_path_to_selected_files = false,
+				cycle_open_buffers = "<tab>",
+				change_working_directory = "<c-\\>",
+				-- These need plugins Thiran does not ship.
+				replace_in_directory = false,
+				open_and_pick_window = false,
+			},
+		}
+		if theme.colorscheme == "thiran" then
+			local palette = require("thiran.theme.palette")
+			-- Yazi's preset paints directories and the footer with ANSI blue,
+			-- which this palette defines as grey. The theme file uses the real hues.
+			opts.config_home = vim.fn.stdpath("config") .. "/lua/thiran/yazi"
+			opts.highlight_groups = {
+				hovered_buffer = { bg = palette.search },
+				hovered_buffer_in_same_directory = { bg = palette.bg_raised },
+			}
+		end
+		return opts
+	end,
 }

@@ -51,8 +51,12 @@ local function paint(bufnr)
   if vim.bo[bufnr].filetype ~= "AvanteInput" then
     return
   end
-  -- Keep the typing area clear. The usage sits on this window's bottom bar.
+  -- Keep the typing area clear. Lualine draws this text on the window's bar.
   pcall(vim.api.nvim_buf_clear_namespace, bufnr, ns, 0, -1)
+  if package.loaded["lualine"] then
+    require("lualine").refresh()
+    return
+  end
   local text = (M.plain or ""):gsub("%%", "%%%%")
   local statusline = "%#ThiranCursorUsage# ↻ " .. text
   for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do

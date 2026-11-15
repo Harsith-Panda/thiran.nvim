@@ -150,17 +150,17 @@ return {
 					sidebar_header = {
 						enabled = true,
 						align = "left",
-						rounded = true,
+						rounded = require("thiran.config.theme").border == "rounded",
 						include_model = true,
 					},
 					edit = {
-						border = "rounded",
+						border = require("thiran.config.theme").border,
 						start_insert = true,
 					},
 					ask = {
 						floating = false,
 						start_insert = true,
-						border = "rounded",
+						border = require("thiran.config.theme").border,
 					},
 				},
 				mappings = {
@@ -196,6 +196,7 @@ return {
 			-- the session id, before Avante opens that history.
 			native.forget_dead_sessions()
 			require("avante").setup(opts)
+			require("thiran.theme").avante()
 			require("thiran.config.avante_model").install()
 
 			-- Cursor drops a session when its agent process exits. Avante then

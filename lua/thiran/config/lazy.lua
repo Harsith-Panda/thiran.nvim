@@ -24,8 +24,7 @@ vim.g.maplocalleader = "\\"
 -- Molten needs its Python host before plugins load.
 require("thiran.config.notebooks").prepare()
 
--- Register Avante's compiled ACP library before any plugin can require it.
-require("thiran.config.avante_native").install()
+-- Avante's config registers the compiled library when that plugin loads.
 
 -- Setup lazy.nvim
 require("lazy").setup({
@@ -33,8 +32,13 @@ require("lazy").setup({
     -- import your plugins
     { import = "thiran.plugins" },
   },
-  -- automatically check for plugin updates
-  checker = { enabled = true },
+  -- Checking GitHub on every launch waits on the network. :Lazy check still works.
+  checker = { enabled = false },
+  performance = {
+    rtp = {
+      disabled_plugins = { "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin", "netrwPlugin" },
+    },
+  },
 })
 
 -- Off removes the Obsidian and render-markdown install folders.

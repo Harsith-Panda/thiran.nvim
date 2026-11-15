@@ -48,7 +48,7 @@ return {
 						vertical = { mirror = true, preview_height = 0.45 },
 						flex = { flip_columns = 140 },
 					},
-					borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+					borderchars = require("thiran.theme").box().chars,
 					mappings = {
 						i = {
 							["<C-j>"] = actions.move_selection_next,

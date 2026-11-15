@@ -121,10 +121,13 @@ function M.prepare()
 	end
 
 	local python = M.python()
-	if vim.fn.executable(python) == 0 or not host_ready(python) then
-		if not M.install_host() then
-			return
-		end
+	-- The import probe starts Python. Skip it once the host binaries are there.
+	if vim.fn.executable(python) == 1 and vim.fn.executable(host_root() .. "/bin/jupytext") == 1 then
+		vim.g.python3_host_prog = python
+		return
+	end
+	if not M.install_host() then
+		return
 	end
 
 	vim.g.python3_host_prog = M.python()

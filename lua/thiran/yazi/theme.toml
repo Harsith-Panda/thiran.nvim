@@ -1,0 +1,121 @@
+# Yazi inside Neovim. Same hues as the editor, used more strongly so the
+# file list and the footer are not one grey. Layered on Yazi's preset,
+# so the file icons stay.
+
+[app]
+overall = { bg = "#151719" }
+
+[mgr]
+cwd = { fg = "#E89250", bold = true }
+find_keyword = { fg = "#F0A868", bold = true, underline = true }
+find_position = { fg = "#D0B8D4", bold = true }
+symlink_target = { fg = "#B3BAC0" }
+marker_copied = { fg = "#202225", bg = "#A8C4A0" }
+marker_cut = { fg = "#202225", bg = "#D09A9C" }
+marker_marked = { fg = "#202225", bg = "#A8D4D2" }
+marker_selected = { fg = "#202225", bg = "#E89250" }
+border_symbol = "│"
+border_style = { fg = "#868E96" }
+
+[tabs]
+active = { fg = "#202225", bg = "#E89250", bold = true }
+inactive = { fg = "#969EA4", bg = "#121314" }
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+[mode]
+normal_main = { fg = "#202225", bg = "#E89250", bold = true }
+normal_alt = { fg = "#D4D6D8", bg = "#1A1C1E" }
+select_main = { fg = "#202225", bg = "#969EA4", bold = true }
+select_alt = { fg = "#D4D6D8", bg = "#1A1C1E" }
+unset_main = { fg = "#202225", bg = "#D09A9C", bold = true }
+unset_alt = { fg = "#D4D6D8", bg = "#1A1C1E" }
+
+# Accent washed onto the terminal ground, so the hovered row reads as warm
+# instead of a flat grey reverse.
+[indicator]
+parent = { fg = "#D4D6D8", bg = "#1A1C1E" }
+current = { fg = "#E6E8E9", bg = "#65462E" }
+preview = { fg = "#E89250", underline = true }
+padding = { open = "", close = "" }
+
+[status]
+overall = { fg = "#D4D6D8", bg = "#121314" }
+# Same joins as the editor statusline: right point after a left chip, left point into the end chip.
+sep_left = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+perm_sep = { fg = "#7D858D" }
+perm_type = { fg = "#A8D4D2" }
+perm_read = { fg = "#A8C4A0" }
+perm_write = { fg = "#E89250" }
+perm_exec = { fg = "#D09A9C" }
+progress_label = { fg = "#E89250", bold = true }
+progress_normal = { fg = "#202225", bg = "#A8C4A0" }
+progress_error = { fg = "#E6E8E9", bg = "#D09A9C" }
+
+[which]
+border = { fg = "#E89250" }
+cand = { fg = "#A8D4D2", bold = true }
+rest = { fg = "#868E96" }
+desc = { fg = "#D4D6D8" }
+separator_style = { fg = "#7D858D" }
+
+[confirm]
+border = { fg = "#E89250" }
+title = { fg = "#E89250", bold = true }
+btn_yes = { fg = "#202225", bg = "#E89250", bold = true }
+btn_no = { fg = "#D4D6D8", bg = "#121314" }
+
+[spot]
+border = { fg = "#868E96" }
+title = { fg = "#E89250" }
+tbl_col = { fg = "#A8D4D2" }
+tbl_cell = { fg = "#E6E8E9", bg = "#65462E" }
+
+[notify]
+title_info = { fg = "#A8C4A0" }
+title_warn = { fg = "#E89250" }
+title_error = { fg = "#D09A9C" }
+
+[pick]
+border = { fg = "#E89250" }
+active = { fg = "#E89250", bold = true }
+inactive = { fg = "#D4D6D8" }
+
+[input]
+border = { fg = "#E89250" }
+title = { fg = "#E89250" }
+value = { fg = "#D4D6D8" }
+selected = { fg = "#E6E8E9", bg = "#65462E" }
+
+[cmp]
+border = { fg = "#868E96" }
+active = { fg = "#E6E8E9", bg = "#65462E" }
+inactive = { fg = "#D4D6D8" }
+
+[tasks]
+border = { fg = "#868E96" }
+title = { fg = "#E89250" }
+hovered = { fg = "#E89250", bold = true }
+
+[help]
+border = { fg = "#868E96" }
+chord = { fg = "#A8D4D2", bold = true }
+action = { fg = "#D4D6D8" }
+hovered = { fg = "#E6E8E9", bg = "#65462E" }
+
+[filetype]
+rules = [
+	{ mime = "image/*", fg = "#E2B48A" },
+	{ mime = "{audio,video}/*", fg = "#D0B8D4" },
+	{ mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio,arj,xar,ms-cab*}", fg = "#D09A9C" },
+	{ mime = "application/{pdf,doc,rtf,json}", fg = "#E2B48A" },
+	{ url = "*", is = "orphan", fg = "#7D858D" },
+	{ url = "*", is = "exec", fg = "#B7D4B0", bold = true },
+	{ url = "*/", fg = "#A8D4D2", bold = true },
+]
+
+[icon]
+prepend_conds = [
+	{ if = "dir", text = "", fg = "#A8D4D2" },
+]
