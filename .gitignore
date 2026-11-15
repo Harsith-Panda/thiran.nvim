@@ -4,3 +4,6 @@ nvim.log
 
 # Personal Obsidian vault path. Copy vault.example.lua to this file.
 lua/thiran/config/vault.lua
+
+# Personal plugins. Copy personal.example.lua to this file.
+lua/thiran/plugins/personal.lua
